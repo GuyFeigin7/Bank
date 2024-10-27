@@ -1,0 +1,75 @@
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank App</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+
+    <div id="home" class="container">
+      <h1>Welcome to the Bank App</h1>
+      <button id="signupButton">Signup</button>
+      <button id="signinButton">Signin</button>
+    </div>
+
+    <!-- Signup Form -->
+    <div id="signupForm" class="container form-container" style="display:none;">
+      <h2>Signup</h2>
+      <form id="signup">
+        <div>
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        <div>
+          <label for="name">Name:</label>
+          <input type="text" id="name" name="name" required>
+        </div>
+        <div>
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password" required>
+        </div>
+        <div>
+          <label for="phone">Phone (Optional):</label>
+          <input type="text" id="phone" name="phone">
+        </div>
+        <p id="signupErrorMessage" style="color:red;"></p>
+        <button type="submit">Signup</button>
+        <button type="button" class="backButton">Back</button>
+      </form>
+    </div>
+
+    <!-- Signin Form -->
+    <div id="signinForm" class="container form-container" style="display:none;">
+      <h2>Signin</h2>
+      <form id="signin">
+        <div>
+          <label for="signinEmail">Email:</label>
+          <input type="email" id="signinEmail" name="email" required>
+        </div>
+        <div>
+          <label for="signinPassword">Password:</label>
+          <input type="password" id="signinPassword" name="password" required>
+        </div>
+        <p id="signinErrorMessage" style="color:red;"></p>
+        <button type="submit">Signin</button>
+        <button type="button" class="backButton">Back</button>
+      </form>
+    </div>
+
+    <!-- Welcome Page -->
+    <div id="welcomePage" class="container form-container" style="display:none;">
+      <h2>Welcome to Your Account</h2>
+      <p id="welcomeMessage">Hello, User!</p>
+      <div id="transactionsPage">
+        <div id="transactionsPage">
+        </div>
+        <button id="viewTransactionsButton">View Transactions</button>
+        <button id="logoutButton">Log Out</button>
+      </div>
+    </div>
+
+    <script src="index.js"></script>
+  </body>
+  </html>
