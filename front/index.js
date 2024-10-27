@@ -74,13 +74,16 @@ document.getElementById('signin').addEventListener('submit', async function (e) 
       // Store token in localStorage
       localStorage.setItem('token', data.token);
 
-      // Decode the token to get user name (optional: you can decode on the frontend)
+      // Decode the token to get user name
       const payload = JSON.parse(atob(data.token.split('.')[1]));
       
       // Show welcome page
       document.getElementById('signinForm').style.display = 'none';
       document.getElementById('welcomePage').style.display = 'block';
       document.getElementById('welcomeMessage').textContent = `Hello, ${payload.name}!`;
+
+      // Show transaction form
+      document.getElementById('transactionForm').style.display = 'block';
     } else {
       errorMessage.textContent = data.message || 'Signin failed.';
     }
@@ -89,14 +92,44 @@ document.getElementById('signin').addEventListener('submit', async function (e) 
   }
 });
 
-// Handle Logout Button
-document.getElementById('logoutButton').addEventListener('click', () => {
-  // Clear the token from localStorage
-  localStorage.removeItem('token');
+// Handle Make Transaction Form Submission
+document.getElementById('makeTransaction').addEventListener('submit', async function (e) {
+  e.preventDefault();
 
-  // Show the home page and hide the welcome page
-  document.getElementById('welcomePage').style.display = 'none';
-  document.getElementById('home').style.display = 'block';
+  const recipientEmail = document.getElementById('recipientEmail').value;
+  const amount = document.getElementById('amount').value;
+  const errorMessage = document.getElementById('transactionErrorMessage');
+
+  const token = localStorage.getItem('token');
+
+  if (!token) {
+    alert('You are not authorized. Please sign in.');
+    return;
+  }
+
+  try {
+    const response = await fetch('http://10.10.1.194:3000/transactions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`, // Pass the token in the Authorization header
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ email: recipientEmail, amount })
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      alert('Transaction successful!');
+      // Reset the form
+      document.getElementById('makeTransaction').reset();
+      document.getElementById('transactionErrorMessage').textContent = '';
+    } else {
+      errorMessage.textContent = data.message || 'Transaction failed.';
+    }
+  } catch (err) {
+    errorMessage.textContent = 'Error: Unable to connect to the server.';
+  }
 });
 
 // Handle View Transactions Button
@@ -148,10 +181,10 @@ document.getElementById('viewTransactionsButton').addEventListener('click', asyn
         const row = tbody.insertRow();
 
         const fromCell = row.insertCell(0);
-        fromCell.textContent = transaction.from;
+        fromCell.textContent = transaction.sender.name;
 
         const toCell = row.insertCell(1);
-        toCell.textContent = transaction.to;
+        toCell.textContent = transaction.receiver.name;
 
         const amountCell = row.insertCell(2);
         amountCell.textContent = transaction.amount;
@@ -163,8 +196,8 @@ document.getElementById('viewTransactionsButton').addEventListener('click', asyn
       alert('Failed to fetch transactions.');
     }
   } catch (error) {
+    console.log(error);
+    
     alert('Error connecting to the server.');
   }
-
-    
 });

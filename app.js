@@ -1,7 +1,7 @@
 
 const express = require("express"); // catch the default export (like library)
 const {signup, signin, verify} = require("./controllers/user.js"); // catch the specific {$fucntion_name} from export
-const {getTransactions} = require("./controllers/transactions.js");
+const {getTransactions, makeTransaction} = require("./controllers/transactions.js");
 const mongoose = require("mongoose"); // catch the default export
 const cors = require("cors"); // catch the default export
 
@@ -29,6 +29,8 @@ app.get("/verify-email", verify);
 
 app.post("/signup", signup); //it is a callback that automaticliy recieves rec/res
 app.post("/signin", signin); //it is a callback that automaticliy recieves rec/res
+
+app.post("/transactions", makeTransaction);
 app.get("/transactions", getTransactions); //it is a callback that automaticliy recieves rec/res
 
 app.listen(port, () => {

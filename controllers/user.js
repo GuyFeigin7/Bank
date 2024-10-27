@@ -77,5 +77,5 @@ async function verify(req, res)
     res.status(303).redirect('http://10.10.1.194:5500/projects/bank/front/index.html');
 }
 
-module.exports = {signup, signin, verify} //this export the signup fucntion for the whole project
+module.exports = {signup, signin, verify, JWT_SECRET} //this export the signup fucntion for the whole project
 
